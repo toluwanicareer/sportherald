@@ -87,6 +87,8 @@ class CreatePost(CreateView):
     def form_valid(self, form):
         post=form.save(commit=False)
         post.author=self.request.user
+        tags=self.request.POST.get('tags')
+        tags_list=tags.split(',')
         post.status='submitted'
         post.save()
         form.save_m2m()
@@ -112,9 +114,10 @@ class CreatePost(CreateView):
             "sportherald",
             post.body,
             title=post.title,
-            json_metadata={"app": "sportherlad.app"},
+            json_metadata={"app": "sportherlad.app", 'tags':tags_list}
         )
         c.broadcast([comment.to_operation_structure()])
+
 
         #return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
         return HttpResponseRedirect('/')
