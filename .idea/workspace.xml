@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d404c1da-c2bb-4802-92c8-a3fd3641f124" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sportherald/settings.py" afterPath="$PROJECT_DIR$/sportherald/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/acc/views.py" afterPath="$PROJECT_DIR$/acc/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,7 +31,7 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="833">
+            <state relative-caret-position="1054">
               <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -50,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sportherald/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="28" column="55" lean-forward="false" selection-start-line="28" selection-start-column="55" selection-end-line="28" selection-end-column="55" />
+            <state relative-caret-position="159">
+              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -82,11 +82,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/acc/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="47" column="37" lean-forward="false" selection-start-line="47" selection-start-column="37" selection-end-line="47" selection-end-column="37" />
+            <state relative-caret-position="251">
+              <caret line="41" column="40" lean-forward="true" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -173,11 +173,11 @@
         <option value="$PROJECT_DIR$/main/templates/includes/nav.html" />
         <option value="$PROJECT_DIR$/main/templates/rules.html" />
         <option value="$PROJECT_DIR$/acc/urls.py" />
-        <option value="$PROJECT_DIR$/acc/views.py" />
         <option value="$PROJECT_DIR$/main/templates/includes/post_list.html" />
         <option value="$PROJECT_DIR$/main/views.py" />
         <option value="$PROJECT_DIR$/main/templates/base.html" />
         <option value="$PROJECT_DIR$/sportherald/settings.py" />
+        <option value="$PROJECT_DIR$/acc/views.py" />
       </list>
     </option>
   </component>
@@ -668,6 +668,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="16" column="10" lean-forward="false" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -731,6 +734,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -794,6 +800,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -874,6 +883,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="33" column="44" lean-forward="false" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -948,26 +960,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/acc/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="47" column="37" lean-forward="false" selection-start-line="47" selection-start-column="37" selection-end-line="47" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
@@ -994,9 +986,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sportherald/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="28" column="55" lean-forward="false" selection-start-line="28" selection-start-column="55" selection-end-line="28" selection-end-column="55" />
+        <state relative-caret-position="159">
+          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/acc/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="41" column="40" lean-forward="true" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
