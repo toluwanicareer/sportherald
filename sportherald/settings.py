@@ -127,7 +127,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 OAUTH_URL='https://steemconnect.com/oauth2/authorize?client_id=CLIENT_ID&redirect_uri=REDIRECT_URI&response_type=code&scope=offline,comment,vote,comment_option,custom_json'
 
-CLIENT_SECRET='59fc2b40cdf7aef15520759d30276058430c0ac333e99bec'
+CLIENT_SECRET='8a1dcfaf5ae1c216f491040161a02532b75dea6393287b62'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
