@@ -45,7 +45,7 @@
                         <p class="text-center">SportHerald uses the steem blockchain to reward predictors with accurate
                             forecasting ability</p>
                         <a href="https://signup.steemit.com/?ref=sportherald" class="btn btn-block btn-lg">Sign Up <i class="fa fa-user"></i></a>
-                        <a class="btn btn-block btn-lg" href="https://steemconnect.com/oauth2/authorize?client_id=sportherald.app&response_type=code&redirect_uri=http%3A%2F%2Fsportherald.org%2Facc%2Foauth%2Fcallback%2F&scope=offline,login,comment,vote,delete_comment,comment_options,claim_reward_balance" >Login<i class="fa fa-sign-in"></i></a>
+                        <a class="btn btn-block btn-lg" href="https://steemconnect.com/oauth2/authorize?client_id=sportherald.app&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Facc%2Foauth%2Fcallback%2F&scope=offline,login,comment,vote,delete_comment,comment_options,claim_reward_balance" >Login<i class="fa fa-sign-in"></i></a>
                     </div>
                 </div>
 
@@ -107,16 +107,16 @@
             </div>
 
             <div class="modal-body">
-                <form method="post" action="{% url 'main:create_post' %}">
+                <form method="post"  id="post-upload" action="{% url 'main:create_post' %}">
                     {% csrf_token %}
                     <input type="hidden" name="sport" id="id_sport" value="">
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Title</label>
-                        <input type="text" name="title" class="form-control" id="id_title">
+                        <input type="text"  name="title" class="form-control" id="id_title">
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Make your prediction:</label>
-                        <textarea class="form-control" name="body" id="id_body"></textarea>
+                        <textarea class="form-control" row="20" name="body" id="id_body"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="recipient-tag" class="col-form-label">Tags</label>
@@ -153,7 +153,7 @@
 <script src="{% static 'main/assets/js/vendor/holder.min.js' %}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="{% static 'main/assets/js/ie10-viewport-bug-workaround.js' %}"></script>
-<script src="./steem.min.js"></script>
+<script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
 <script>
     $('.sport_cat').click(function(e){
         e.preventDefault();
@@ -167,9 +167,51 @@
 
         $('#postModal').modal('show')
     })
-    localStorage.setItem('offset',20)
+    localStorage.setItem('offset',20);
 
-    steem.api.setOptions({ url: 'https://api.steemit.com' })
+    //steem.api.setOptions({ url: 'https://api.steemit.com' })
+
+    $('#post-upload').submit(function(e){
+        console.log('fuck shit')
+        e.preventDefault();
+        title=$('#id_title').val();
+        body=$('#id_body').val();
+        tags=$('#id_tags').val();
+        posting_key=''
+
+        $.ajax({
+           type: "POST",
+           url: $(this).attr('action'),
+           data: $("#post-upload").serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               //alert(data); // show response from the php script.
+              //respopostArticle(data.username , data.posting_key, [''], data.slug, title, body)
+              console.log(data.username)
+
+           }
+         });
+    });
+
+    function postArticle(username,postingKey, tags, slug, title, body)
+ {
+  steem.broadcast.comment(
+   '5JHL9JFY4x5bszS1e4tGCNpVdLCi7qSUaFFCk1gM2iEP3XmbNFB',
+    '', // author, leave blank for new post
+    'sportherald', // first tag
+   username, // username
+    slug, // permlink
+    title, // Title
+    body, // Body of post
+    // json metadata (additional tags, app name, etc)
+    { tags: tags, app: 'sportherald.app' },
+    function (err, result) {
+      if (err)
+        alert('Failure! ' + err);
+      else
+        alert('Success!');
+    } );
+}
 
 </script>
 {% block scripts %}

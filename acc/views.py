@@ -38,8 +38,9 @@ class handleCode(View):
         except User.DoesNotExist:
             user=User.objects.create_user(username=username)
             profile=Profile.objects.create(posting_key=posting_key, active_key=active_key,
-                                           memo_key=memo_key, user=user)
+                                           memo_key=memo_key, user=user, refresh_token=refresh_token)
         user=login(request, user)
+        request.session['access_token'] = access_token
         return HttpResponseRedirect('/')
 
 

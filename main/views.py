@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView
 from .models import Post, Sport
+from acc.models import Profile
 from .forms import PostForm
 from django.http import JsonResponse, HttpResponseRedirect, Http404
 import pdb
@@ -12,6 +13,11 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
+from django.contrib.auth.models import  User
+import json
+import requests
+from steemconnect.client import Client
+from steemconnect.operations import Comment
 # Create your views here.
 
 class ViewMixin:
@@ -85,12 +91,41 @@ class CreatePost(CreateView):
         post.save()
         form.save_m2m()
         messages.success(self.request, 'Post Submitted and under review')
-        return HttpResponseRedirect('/')
 
+        if not self.request.user.username == 'admin':# remember to remove in production
+            user=self.request.user
+        else:
+            user=User.objects.get(username='areoye')
 
+        profile=Profile.objects.get(user=user)
+        posting_key=profile.posting_key
+        refresh_token = profile.refresh_token
+        url = "https://v2.steemconnect.com/api/oauth2/token"
+        response_access = requests.post(url, data={'refresh_token': refresh_token,
+                                                   'client_id': 'sportherald.app',
+                                                   'client_secret': settings.CLIENT_SECRET,
+                                                   'scope': "vote,comment,offline"})
+        access_token = response_access.json().get('access_token')
+        c=Client(access_token=access_token)
+        comment=Comment(
+            user.username,
+            "sportherald",
+            post.body,
+            title=post.title,
+            json_metadata={"app": "sportherlad.app"},
+        )
+        c.broadcast([comment.to_operation_structure()])
+
+        return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
 
     def form_invalid(self,form):
         pdb.set_trace()
+
+
+
+
+
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PostStatus(View):
@@ -109,7 +144,23 @@ class PostStatus(View):
         except Post.DoesNotExist:
             return JsonResponse({'status':404, 'message':'Post not found'})
 
-
-
-
-
+def upvote(access_token, voter, author, permlink, weight=100):
+    headers = {
+        'content-type': "application/json; charset=utf-8",
+        "Accept": "application/json",
+        'Authorization': access_token,
+        'cache-control': "no-cache"
+    }
+    payload = """{
+    "operations":
+        [
+            ["vote",
+                {
+                    "voter":"{}",
+                    "author":"{}",
+                    "permlink":"{}",
+                    "weight": {}
+                }
+            ]
+        ]
+    }""".format(voter, author, permlink, weight)
