@@ -26,7 +26,7 @@ SECRET_KEY = 'ot54^(si2l7bg0oirmua)u%7y715u3u6gh9zpj&fpnn@7h6_4w'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['sportherald.pythonanywhere.com', '206.81.9.33', 'localhost']
+ALLOWED_HOSTS = ['sportherald.org','www.sportherald.org' '206.81.9.33', 'localhost']
 
 
 # Application definition
