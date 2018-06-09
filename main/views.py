@@ -111,7 +111,8 @@ class CreatePost(CreateView):
         c=Client(access_token=access_token)
         comment=Comment(
             author=user.username,
-            permlink="sportherald",
+            parent_permlink="sportherald",
+            permlink=post.slug,
             body=post.body,
             title=post.title,
             json_metadata={"app": "sportherlad.app", 'tags':tags_list}
