@@ -110,9 +110,9 @@ class CreatePost(CreateView):
         access_token = response_access.json().get('access_token')
         c=Client(access_token=access_token)
         comment=Comment(
-            user.username,
-            "sportherald",
-            post.body,
+            author=user.username,
+            permlink="sportherald",
+            body=post.body,
             title=post.title,
             json_metadata={"app": "sportherlad.app", 'tags':tags_list}
         )
