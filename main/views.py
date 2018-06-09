@@ -57,10 +57,10 @@ class homeView(ViewMixin, ListView):
 class BlogView(LoginRequiredMixin, ViewMixin, ListView):
 
     def get_queryset(self):
-        return Post.objects.filter(author=self.request.user).order_by('-approved_date')[:settings.PAGE_LENGTH]
+        return Post.objects.filter(author=self.request.user).order_by('-created_date')[:settings.PAGE_LENGTH]
 
     def post(self, request, *args, **kwargs):
-        self.main_queryset=Post.objects.filter(author=self.request.user).order_by('-approved_date')
+        self.main_queryset=Post.objects.filter(author=self.request.user).order_by('-created_date')
         return  super(BlogView, self).post(request, *args, **kwargs)
 
 
@@ -116,8 +116,8 @@ class CreatePost(CreateView):
         )
         c.broadcast([comment.to_operation_structure()])
 
-        return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
-
+        #return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
+        return HttpResponseRedirect('/')
     def form_invalid(self,form):
         pdb.set_trace()
 
@@ -144,23 +144,3 @@ class PostStatus(View):
         except Post.DoesNotExist:
             return JsonResponse({'status':404, 'message':'Post not found'})
 
-def upvote(access_token, voter, author, permlink, weight=100):
-    headers = {
-        'content-type': "application/json; charset=utf-8",
-        "Accept": "application/json",
-        'Authorization': access_token,
-        'cache-control': "no-cache"
-    }
-    payload = """{
-    "operations":
-        [
-            ["vote",
-                {
-                    "voter":"{}",
-                    "author":"{}",
-                    "permlink":"{}",
-                    "weight": {}
-                }
-            ]
-        ]
-    }""".format(voter, author, permlink, weight)

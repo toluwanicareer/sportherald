@@ -171,47 +171,8 @@
 
     //steem.api.setOptions({ url: 'https://api.steemit.com' })
 
-    $('#post-upload').submit(function(e){
-        console.log('fuck shit')
-        e.preventDefault();
-        title=$('#id_title').val();
-        body=$('#id_body').val();
-        tags=$('#id_tags').val();
-        posting_key=''
 
-        $.ajax({
-           type: "POST",
-           url: $(this).attr('action'),
-           data: $("#post-upload").serialize(), // serializes the form's elements.
-           success: function(data)
-           {
-               //alert(data); // show response from the php script.
-              //respopostArticle(data.username , data.posting_key, [''], data.slug, title, body)
-              console.log(data.username)
 
-           }
-         });
-    });
-
-    function postArticle(username,postingKey, tags, slug, title, body)
- {
-  steem.broadcast.comment(
-   '5JHL9JFY4x5bszS1e4tGCNpVdLCi7qSUaFFCk1gM2iEP3XmbNFB',
-    '', // author, leave blank for new post
-    'sportherald', // first tag
-   username, // username
-    slug, // permlink
-    title, // Title
-    body, // Body of post
-    // json metadata (additional tags, app name, etc)
-    { tags: tags, app: 'sportherald.app' },
-    function (err, result) {
-      if (err)
-        alert('Failure! ' + err);
-      else
-        alert('Success!');
-    } );
-}
 
 </script>
 {% block scripts %}
