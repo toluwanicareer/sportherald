@@ -28,7 +28,7 @@ class handleCode(View):
         headers={'Authorization': access_token}
         me_response=requests.get(me_url,headers=headers)
         me_response=me_response.json()
-        pdb.set_trace()
+        #pdb.set_trace()
         posting_key=me_response.get('account').get('posting').get('key_auths')[0][0]
         active_key=me_response.get('account').get('active').get('key_auths')[0][0]
         memo_key=me_response.get('account').get('memo_key')
