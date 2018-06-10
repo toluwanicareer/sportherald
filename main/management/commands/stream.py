@@ -10,21 +10,20 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         blockchain = Blockchain()
         stream = map(Post, blockchain.stream(filter_by=['comment']))
-        while True:
-            try:
-                for post in stream:
-                    tags = post["tags"]
-                    if post.is_main_post() and post.parent_permlink == 'sportherald' :
-                        permlink=post.permlink
-                        try:
-                            sportherald_post=Post.objects.get(slug=permlink)
-                            sportherald_post.update(post)
-                        except Post.DoesNotExist:
-                            pass
-                break
+        #while True:
 
-            except :
-                continue
+        for post in stream:
+            tags = post["tags"]
+            if post.is_main_post() and post.parent_permlink == 'sportherald' :
+                permlink=post.permlink
+                try:
+                    sportherald_post=Post.objects.get(slug=permlink)
+                    sportherald_post.update(post)
+                except Post.DoesNotExist:
+                    pass
+
+
+
 
 
 
