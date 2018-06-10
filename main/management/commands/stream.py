@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from steem.blockchain import Blockchain
 from steem.post import Post
-from main.models import Post
+from main.models import Post as sport_post
 
 class Command(BaseCommand):
     args=''
@@ -17,7 +17,7 @@ class Command(BaseCommand):
             if post.is_main_post() and post.parent_permlink == 'sportherald' :
                 permlink=post.permlink
                 try:
-                    sportherald_post=Post.objects.get(slug=permlink)
+                    sportherald_post=sport_post.objects.get(slug=permlink)
                     sportherald_post.update(post)
                 except Post.DoesNotExist:
                     pass
