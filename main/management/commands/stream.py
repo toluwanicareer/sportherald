@@ -13,7 +13,7 @@ class Command(BaseCommand):
         #while True:
 
         for post in stream:
-            tags = post["tags"]
+            #tags = post["tags"]
             if post.is_main_post() and post.parent_permlink == 'sportherald' :
                 permlink=post.permlink
                 try:
