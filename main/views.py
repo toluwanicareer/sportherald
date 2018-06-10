@@ -21,6 +21,7 @@ from steemconnect.operations import Comment
 # Create your views here.
 
 class ViewMixin:
+    page=None
     model = Post
     template_name = 'index.html'
     context_object_name = 'posts'
