@@ -25,7 +25,7 @@ class ViewMixin:
     model = Post
     template_name = 'index.html'
     context_object_name = 'posts'
-
+#hghg
     def get_context_data(self, *args, **kwargs):
         context = super(ViewMixin, self).get_context_data(*args, **kwargs)
         context['sports'] = Sport.objects.all()
