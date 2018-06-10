@@ -41,7 +41,11 @@ class ViewMixin:
             else:
                 posts = self.main_queryset.filter(sport_id=sport_id)[offset:new_offset]
                 #pdb.set_trace()
-            response = render_to_string('includes/post_list.html', {'posts': posts})
+            if self.page == 'review':
+                context={'posts': posts, 'page': 'review'}
+            else:
+                context = {'posts': posts}
+            response = render_to_string('includes/post_list.html', context)
             return JsonResponse({'data': response, 'offset': new_offset})
         else:
             return Http404('Invalid Access')
@@ -64,11 +68,6 @@ class BlogView(LoginRequiredMixin, ViewMixin, ListView):
         return  super(BlogView, self).post(request, *args, **kwargs)
 
 
-
-
-
-
-
 @method_decorator(csrf_exempt, name='dispatch')
 class reviewView(ViewMixin,ListView):
     main_queryset=Post.objects.filter(status='submitted').order_by('-created_date')
@@ -78,6 +77,10 @@ class reviewView(ViewMixin,ListView):
         context=super(reviewView, self).get_context_data(*args, **kwargs)
         context['page']='review'
         return context
+
+    def post(self,request,*args, **kwargs):
+        self.page='review'
+        return super(reviewView, self).post(request, *args, **kwargs)
 
 
 class CreatePost(CreateView):
@@ -111,10 +114,10 @@ class CreatePost(CreateView):
         c=Client(access_token=access_token)
         comment=Comment(
             author=user.username,
-            parent_permlink="sportherald",
             permlink=post.slug,
             body=post.body,
             title=post.title,
+            parent_permlink="sportherald",
             json_metadata={"app": "sportherlad.app", 'tags':tags_list}
         )
         c.broadcast([comment.to_operation_structure()])

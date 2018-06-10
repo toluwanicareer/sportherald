@@ -32,6 +32,18 @@ class Post(models.Model):
     created_date=models.DateTimeField(auto_now_add=True, null=True)
     approved_date=models.DateTimeField(null=True)
     online=models.BooleanField(default=False)
+    likes=models.IntegerField(null=True)
+    comment=models.IntegerField(null=True)
+    shares=models.IntegerField(null=True)
+    pending_payout=models.DecimalField(max_digits=100, decimal_places=2, null=True)
+
+    def update(self,post):
+        self.likes=post.net_votes
+        self.comment=post.children
+        self.shares=post.net_rshares
+        self.pending_payout=post.pending_payout_value.get('amount')
+
+
 
 
     def save(self, *args, **kwargs):
