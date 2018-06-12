@@ -153,15 +153,15 @@ class PostStatus(View):
             posts=Post.objects.filter(status='submitted')[:settings.PAGE_LENGTH]
             response=render_to_string('includes/post_list.html', {'posts':posts})
             comment = Comment(
-                author='areoye',
+                author=request.user.username,
                 body=comment,
                 permlink='sportherald',
-                title=post.title,
+                title='',
                 parent_permlink=post.slug,
-                parent_author='areoye',
-                json_metadata={"app": "sportherlad.app" }
+                parent_author=request.post.author,
+                json_metadata={"app": "sportherald.app" }
             )
-            profile = Profile.objects.get(user__username='areoye')
+            profile = Profile.objects.get(user__username=request.user)
             c=get_c(profile)
             c.broadcast([comment.to_operation_structure()])
 
