@@ -38,10 +38,14 @@ class Post(models.Model):
     pending_payout=models.DecimalField(max_digits=100, decimal_places=2, null=True)
 
     def update(self,post):
-        self.likes=post.net_votes
-        self.comment=post.children
-        self.shares=post.net_rshares
+        self.likes=post.pop('net_votes')
+        self.comment=post.pop('children')
+        self.shares=post.pop('net_rshares')
         self.pending_payout=post.pending_payout_value.get('amount')
+        self.save()
+
+    def __str__(self):
+        return self.title
 
 
 

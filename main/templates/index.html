@@ -24,9 +24,24 @@
 
       $('.post_action').click(function(e){
           e.preventDefault();
+          $('#commentModal').modal('show');
+
           id=$(this).attr('data_id');
-          status=$(this).attr('action')
-          $.post("{% url 'main:post_status' %}", {'id':id, 'status':status})
+          $('#post_id').val(id)
+          status=$(this).attr('action');
+          $('#comment_action_id').val(status);
+
+          /**
+
+
+           **/
+      })
+      $('#comment-upload').submit(function(e){
+          e.preventDefault();
+          status=$('#comment_action_id').val();
+          id=$('#post_id').val()
+          comment=$('#id_comment').val()
+           $.post("{% url 'main:post_status' %}", {'id':id, 'status':status, 'comment':comment})
               .done(function(data){
 
                   $('#post_list').html(data.data);

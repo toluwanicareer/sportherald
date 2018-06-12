@@ -94,9 +94,9 @@ class CreatePost(CreateView):
         tags=self.request.POST.get('tags')
         tags_list=tags.split(',')
         post.status='submitted'
-        post.save()
-        form.save_m2m()
-        messages.success(self.request, 'Post Submitted and under review')
+
+
+
 
         if not self.request.user.username == 'admin':# remember to remove in production
             user=self.request.user
@@ -104,24 +104,27 @@ class CreatePost(CreateView):
             user=User.objects.get(username='areoye')
 
         profile=Profile.objects.get(user=user)
+        c=get_c(profile)
         posting_key=profile.posting_key
-        refresh_token = profile.refresh_token
-        url = "https://v2.steemconnect.com/api/oauth2/token"
-        response_access = requests.post(url, data={'refresh_token': refresh_token,
-                                                   'client_id': 'sportherald.app',
-                                                   'client_secret': settings.CLIENT_SECRET,
-                                                   'scope': "vote,comment,offline"})
-        access_token = response_access.json().get('access_token')
-        c=Client(access_token=access_token)
+
         comment=Comment(
             author=user.username,
             permlink=post.slug,
             body=post.body,
             title=post.title,
             parent_permlink="sportherald",
-            json_metadata={"app": "sportherlad.app", 'tags':tags_list}
+            json_metadata={"app": "sportherald.app", 'tags':tags_list}
         )
-        c.broadcast([comment.to_operation_structure()])
+        try:
+            c.broadcast([comment.to_operation_structure()])
+
+            post.save()
+            form.save_m2m()
+            messages.success(self.request, 'Post Submitted and under review')
+        except:
+            messages.warning(self.request, 'Network Error')
+
+
 
 
         #return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
@@ -140,15 +143,40 @@ class PostStatus(View):
     def post(self, request,*args, **kwargs):
         id = request.POST.get('id')
         status=request.POST.get('status')
+        comment=request.POST.get('comment')
         try:
             post=Post.objects.get(id=id)
             post.status=status
             post.approved_date= timezone.now()
-            post.save()
+            #post.save()
             posts=Post.objects.filter(status='submitted')[:settings.PAGE_LENGTH]
             response=render_to_string('includes/post_list.html', {'posts':posts})
+            comment = Comment(
+                author='areoye',
+                body=comment,
+                permlink='sportherald',
+                title=post.title,
+                parent_permlink=post.slug,
+                parent_author='areoye',
+                json_metadata={"app": "sportherlad.app" }
+            )
+            profile = Profile.objects.get(user__username='areoye')
+            c=get_c(profile)
+            c.broadcast([comment.to_operation_structure()])
+
             return  JsonResponse({'status':200, 'message':'Successfully Updated',
                                   'data':response})
+
         except Post.DoesNotExist:
             return JsonResponse({'status':404, 'message':'Post not found'})
 
+def get_c(profile):
+    refresh_token = profile.refresh_token
+    url = "https://v2.steemconnect.com/api/oauth2/token"
+    response_access = requests.post(url, data={'refresh_token': refresh_token,
+                                               'client_id': 'sportherald.app',
+                                               'client_secret': settings.CLIENT_SECRET,
+                                               'scope': "vote,comment,offline"})
+    access_token = response_access.json().get('access_token')
+    c = Client(access_token=access_token)
+    return c

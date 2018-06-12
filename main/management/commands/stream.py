@@ -1,26 +1,33 @@
 from django.core.management.base import BaseCommand, CommandError
-from steem.blockchain import Blockchain
-from steem.post import Post
-from main.models import Post as sport_post
+from steem.steemd import Steemd
+from django.contrib.auth.models import User
+from main.models import Post
+import datetime
+from django.utils import timezone
 
 class Command(BaseCommand):
     args=''
     help ='Check the Invetsment, and update necessary Investment daily'
 
     def handle(self, *args, **options):
-        blockchain = Blockchain()
-        stream = map(Post, blockchain.stream(filter_by=['comment']))
-        #while True:
+        s=Steemd()
+        now=datetime.datetime.now()
 
-        for post in stream:
-            #tags = post["tags"]
-            if post.is_main_post() and post.parent_permlink == 'sportherald' :
-                permlink=post.permlink
+        users=User.objects.all()
+        for user in users:
+            posts=s.get_discussions_by_author_before_date('areoye', None, now.strftime("%Y-%m-%dT%H:%M"), 10)
+            for post in posts:
                 try:
-                    sportherald_post=sport_post.objects.get(slug=permlink)
-                    sportherald_post.update(post)
+                    steem_post=Post.objects.get(slug=post.pop('root_permlink'))
                 except Post.DoesNotExist:
                     pass
+                steem_post.update(post)
+
+
+
+
+
+
 
 
 

@@ -3,8 +3,8 @@
 <div class="card">
 {% if post.status == 'submitted' and page == 'review' %}
     <div class="card-header">
-        <a data_id="{{ post.id }}" action="approved" class="btn btn-outline-success post_action">Accept</a>
-        <a data_id="{{ post.id }}" action="rejected"class="btn btn-outline-danger post_action">Reject</a>
+        <a data_id="{{ post.id }}" permalink="{{ post.slug }}" action="approved" class="btn btn-outline-success post_action">Accept</a>
+        <a data_id="{{ post.id }}" permalink="{{ post.slug }}" action="rejected" class="btn btn-outline-danger post_action">Reject</a>
     </div>
 {% endif  %}
     <div class="card-block">
@@ -36,20 +36,20 @@
 
         <div class="icon">
             <i class="fa fa-angle-up"></i>
-            $1905
+            ${{ post.pending_payout|default:0 }}
         </div>
         <div class="icon">
             <i class="fa fa-thumbs-up"></i>
-            25
+            {{ post.likes|default:0 }}
         </div>
         <div class="icon">
             <i class="fa fa-comments"></i>
-            43
+            {{ post.comment|default:0 }}
         </div>
 
         <div class="icon">
             <i class="fa fa-reply"></i>
-            90
+            {{ post.shares|default:0 }}
         </div>
     </div>
 </div>
