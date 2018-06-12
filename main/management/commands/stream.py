@@ -20,7 +20,7 @@ class Command(BaseCommand):
                 try:
                     steem_post=Post.objects.get(slug=post.pop('root_permlink'))
                     steem_post.update(post)
-                except Post.DoesNotExist:
+                except:
                     continue
 
 
