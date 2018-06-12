@@ -35,6 +35,9 @@ class handleCode(View):
 
         try:
             user=User.objects.get(username=username)
+            profile=Profile.objects.get(user=user)
+            profile.refresh_token=refresh_token
+            profile.save()
         except User.DoesNotExist:
             user=User.objects.create_user(username=username)
             profile=Profile.objects.create(posting_key=posting_key, active_key=active_key,

@@ -124,7 +124,7 @@ class CreatePost(CreateView):
         except:
             messages.warning(self.request, 'Network Error')
 
-        pdb.set_trace()
+        #pdb.set_trace()
 
 
         #return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
