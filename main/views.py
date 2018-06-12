@@ -104,7 +104,7 @@ class CreatePost(CreateView):
             user=User.objects.get(username='areoye')
 
         profile=Profile.objects.get(user=user)
-        c=get_c(profile)
+        cli=get_c(profile)
         posting_key=profile.posting_key
 
         comment=Comment(
@@ -116,7 +116,7 @@ class CreatePost(CreateView):
             json_metadata={"app": "sportherald.app", 'tags':tags_list}
         )
         try:
-            c.broadcast([comment.to_operation_structure()])
+            cli.broadcast([comment.to_operation_structure()])
 
             post.save()
             form.save_m2m()
@@ -124,11 +124,12 @@ class CreatePost(CreateView):
         except:
             messages.warning(self.request, 'Network Error')
 
-
+        pdb.set_trace()
 
 
         #return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
         return HttpResponseRedirect('/')
+
     def form_invalid(self,form):
         pdb.set_trace()
 
@@ -178,5 +179,5 @@ def get_c(profile):
                                                'client_secret': settings.CLIENT_SECRET,
                                                'scope': "vote,comment,offline"})
     access_token = response_access.json().get('access_token')
-    c = Client(access_token=access_token)
+    c = Client(access_token=access_token, client_id='sportherald.app', client_secret=settings.CLIENT_SECRET)
     return c
