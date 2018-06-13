@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from main.models import Post
 import datetime
 from django.utils import timezone
+from main.models import update_post
 
 class Command(BaseCommand):
     args=''
@@ -12,16 +13,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         s=Steemd()
         now=datetime.datetime.now()
+        update_post()
 
-        users=User.objects.all()
-        for user in users:
-            posts=s.get_discussions_by_author_before_date('areoye', None, now.strftime("%Y-%m-%dT%H:%M"), 10)
-            for post in posts:
-                try:
-                    steem_post=Post.objects.get(slug=post.pop('root_permlink'))
-                    steem_post.update(post)
-                except:
-                    pass
+
 
 
 

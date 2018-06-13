@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 from django.template.defaultfilters import slugify
+from steem.steemd import Steemd
+import datetime
 
 # Create your models here.
 
@@ -55,4 +57,15 @@ class Post(models.Model):
             self.slug = slugify(self.title)
         return super(Post, self).save(*args, **kwargs)
 
-
+def update_post():
+    s=Steemd()
+    now=datetime.datetime.now()
+    users = User.objects.all()
+    for user in users:
+        posts = s.get_discussions_by_author_before_date('areoye', None, now.strftime("%Y-%m-%dT%H:%M"), 10)
+        for post in posts:
+            try:
+                steem_post = Post.objects.get(slug=post.pop('root_permlink'))
+                steem_post.update(post)
+            except:
+                pass

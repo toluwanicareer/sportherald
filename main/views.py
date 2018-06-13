@@ -107,7 +107,7 @@ class CreatePost(CreateView):
 
         profile=Profile.objects.get(user=user)
         cli=get_c(profile)
-        posting_key=profile.posting_key
+
         post.save()
         form.save_m2m()
         comment=Comment(
@@ -134,11 +134,6 @@ class CreatePost(CreateView):
 
     def form_invalid(self,form):
         pdb.set_trace()
-
-
-
-
-
 
 
 @method_decorator(csrf_exempt, name='dispatch')
