@@ -168,7 +168,7 @@ class PostStatus(View):
             profile = Profile.objects.get(user=request.user)
             c=get_c(profile)
             rich=c.broadcast([comment.to_operation_structure()])
-            pdb.set_trace()
+            #pdb.set_trace()
 
             return  JsonResponse({'status':200, 'message':'Successfully Updated',
                                   'data':response})
