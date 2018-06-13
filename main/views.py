@@ -162,7 +162,7 @@ class PostStatus(View):
                 permlink='cfgtyhjnrichlo',
                 title='',
                 parent_permlink=post.slug,
-                parent_author=request.post.author,#request.post.author,
+                parent_author=post.author.username,#request.post.author,
                 json_metadata={"app": "sportherald.app" }
             )
             profile = Profile.objects.get(user=request.user)
