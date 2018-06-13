@@ -1,0 +1,53 @@
+<div class="card">
+{% if post.status == 'submitted' and page == 'review' %}
+    <div class="card-header">
+        <a data_id="{{ post.id }}" permalink="{{ post.slug }}" action="approved" class="btn btn-outline-success post_action">Accept</a>
+        <a data_id="{{ post.id }}" permalink="{{ post.slug }}" action="rejected" class="btn btn-outline-danger post_action">Reject</a>
+    </div>
+{% endif  %}
+    <div class="card-block">
+        <div class="card-title user">
+
+            <img src="{% static  'main/assets/img/user_male2-512.png' %}" class="img-thumbnail "
+                 style="width: 24px; height: 24px">
+            <span class="user">
+  {{ post.author }}
+</span>
+            <span class="time"> @ {{post.created_date|timesince}} ago</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12 col-md-3 col-lg-2"><img src={{ post.sport.thumbnail.url }}
+                                                              class="img-fluid"></div>
+                <div class="col-sm-12 col-md-9 col-lg-10">
+                    <h5>{{ post.title }}</h5>
+                    <p>{{ post.body }}</p>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <div class="card-footer">
+
+        <div class="icon">
+            <i class="fa fa-angle-up"></i>
+            ${{ post.pending_payout|default:0 }}
+        </div>
+        <div class="icon">
+            <a class="js_upvote"  href="{% url 'main:upvote' post.id  %}"><i class="fa fa-thumbs-up"></i></a>
+            {{ post.likes|default:0 }}
+        </div>
+        <div class="icon">
+            <i class="fa fa-comments"></i>
+            {{ post.comment|default:0 }}
+        </div>
+
+        <div class="icon">
+            <i class="fa fa-reply"></i>
+            {{ post.shares|default:0 }}
+        </div>
+    </div>
+</div>

@@ -15,9 +15,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils import timezone
 from django.contrib.auth.models import  User
 import json
+import datetime
 import requests
 from steemconnect.client import Client
-from steemconnect.operations import Comment
+from steemconnect.operations import Comment, Vote
+from steem.steemd import Steemd
 # Create your views here.
 
 class ViewMixin:
@@ -106,7 +108,8 @@ class CreatePost(CreateView):
         profile=Profile.objects.get(user=user)
         cli=get_c(profile)
         posting_key=profile.posting_key
-
+        post.save()
+        form.save_m2m()
         comment=Comment(
             author=user.username,
             permlink=post.slug,
@@ -116,10 +119,9 @@ class CreatePost(CreateView):
             json_metadata={"app": "sportherald.app", 'tags':tags_list}
         )
         try:
-            cli.broadcast([comment.to_operation_structure()])
+            rich=cli.broadcast([comment.to_operation_structure()])
 
-            post.save()
-            form.save_m2m()
+
             messages.success(self.request, 'Post Submitted and under review')
         except:
             messages.warning(self.request, 'Network Error')
@@ -152,18 +154,21 @@ class PostStatus(View):
             #post.save()
             posts=Post.objects.filter(status='submitted')[:settings.PAGE_LENGTH]
             response=render_to_string('includes/post_list.html', {'posts':posts})
+            now=datetime.datetime.now()
+            new_slug=now.strftime("%Y-%m-%d-%H:%M")
             comment = Comment(
                 author=request.user.username,
                 body=comment,
-                permlink='sportherald',
+                permlink='cfgtyhjnrichlo',
                 title='',
                 parent_permlink=post.slug,
-                parent_author=request.post.author,
+                parent_author=request.post.author,#request.post.author,
                 json_metadata={"app": "sportherald.app" }
             )
-            profile = Profile.objects.get(user__username=request.user)
+            profile = Profile.objects.get(user=request.user)
             c=get_c(profile)
-            c.broadcast([comment.to_operation_structure()])
+            rich=c.broadcast([comment.to_operation_structure()])
+            pdb.set_trace()
 
             return  JsonResponse({'status':200, 'message':'Successfully Updated',
                                   'data':response})
@@ -171,13 +176,36 @@ class PostStatus(View):
         except Post.DoesNotExist:
             return JsonResponse({'status':404, 'message':'Post not found'})
 
+def upvote(request, id):
+    try:
+        post=Post.objects.get(id=id)
+    except:
+        pass
+    vote=Vote(
+        voter=request.user.username,
+        author=post.author.username,
+        permlink=post.slug,
+        percent=100,
+
+    )
+    profile=get_profile(request.user)
+    c=get_c(profile)
+    res=c.broadcast(vote.to_operation_structure())
+    s=Steemd()
+    content=s.get_content(author=post.author.username, permlink=post.slug)
+    post.update(content)
+    return HttpResponseRedirect('/')
+
 def get_c(profile):
     refresh_token = profile.refresh_token
     url = "https://v2.steemconnect.com/api/oauth2/token"
     response_access = requests.post(url, data={'refresh_token': refresh_token,
                                                'client_id': 'sportherald.app',
                                                'client_secret': settings.CLIENT_SECRET,
-                                               'scope': "vote,comment,offline"})
+                                               'scope': "vote,comment,offline, comment_options,claim_reward_balance"})
     access_token = response_access.json().get('access_token')
     c = Client(access_token=access_token, client_id='sportherald.app', client_secret=settings.CLIENT_SECRET)
     return c
+
+def get_profile(user):
+    return Profile.objects.get(user__username=user)
