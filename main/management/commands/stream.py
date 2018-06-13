@@ -21,7 +21,7 @@ class Command(BaseCommand):
                     steem_post=Post.objects.get(slug=post.pop('root_permlink'))
                     steem_post.update(post)
                 except:
-                    continue
+                    pass
 
 
 
