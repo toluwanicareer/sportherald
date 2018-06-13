@@ -151,7 +151,7 @@ class PostStatus(View):
             post=Post.objects.get(id=id)
             post.status=status
             post.approved_date= timezone.now()
-            #post.save()
+            post.save()
             posts=Post.objects.filter(status='submitted')[:settings.PAGE_LENGTH]
             response=render_to_string('includes/post_list.html', {'posts':posts})
             now=datetime.datetime.now()
