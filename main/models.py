@@ -46,7 +46,7 @@ class Post(models.Model):
         self.likes=post.pop('net_votes')
         self.comment=post.pop('children')
         self.shares=post.pop('net_rshares')
-        self.pending_payout=post.pop('pending_payout_value')
+        self.pending_payouts=post.pop('pending_payout_value')
         self.save()
 
     def __str__(self):
