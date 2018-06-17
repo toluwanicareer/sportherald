@@ -67,7 +67,6 @@ class Post(models.Model):
 
         return super(Post, self).save(*args, **kwargs)
 
-
 def update_post():
     s=Steemd()
     now=datetime.datetime.now()
