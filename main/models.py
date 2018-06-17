@@ -73,10 +73,11 @@ def update_post():
     now=datetime.datetime.now()
     users = User.objects.all()
     for user in users:
-        posts = s.get_discussions_by_author_before_date('areoye', None, now.strftime("%Y-%m-%dT%H:%M"), 10)
+        posts = s.get_discussions_by_author_before_date(user.username, None, now.strftime("%Y-%m-%dT%H:%M"), 10)
         for post in posts:
             try:
                 steem_post = Post.objects.get(slug=post.pop('root_permlink'))
                 steem_post.update(post)
+                print('here')
             except:
                 pass
