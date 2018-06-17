@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div id="detailpage" style="background-color: white;
+    margin-bottom: 30px;
+    border-right: solid thin #974679;padding: 17px;">
+                <div class="bg-img" style="background-image: url({{ post.sport.thumbnail.url }}); height:130px">
+                </div>
+                <div class="detailcontainer">
+                    <div class="detailHeader">
+                        <h2>{{ post.title }}</h2>
+
+                        <i class="fa fa-user"></i>
+                        <span class="user">
+                 {{ post.author.username }}
+                </span>
+                        <span class="time"> @ 6 hours ago</span>
+                        <span class="icon float-right">
+                        <i class="fa fa-thumbs-up"></i>
+                        {{ post.likes }}
+                    </span>
+
+                    </div>
+                    <div class="detailContent">
+                       {{ post.body }}
+                    </div>
+
+                    <div class="commentSection">
+                        <div class="commentno">{{ post.comment }} Comments
+                            <hr style="margin-top: 0.5rem;
+    background-color: #974679;"/>
+                        </div>
+                        <div class="comment_container">
+
+                        </div>
+
+                        <!--div class="comment sub">
+                            <div class="row">
+                                <div class="col-md-2 hidden-sm-down">
+                                    <img src="assets/img/user_male2-512.png" class="img-thumbnail">
+                                </div>
+                                <div class="col-md-10">
+                                    <h5>Lena Dunham</h5>
+                                    <div class="time"> @ 6 hours ago</div>
+                                    <p>Walt Disney Studios As the design lead for Disney Studios my primary
+                                        responsibility is
+                                        the creative vision and execution of a design language that will cover over 140
+                                        enterprise
+                                        and consumer products</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="comment">
+                            <div class="row">
+                                <div class="col-md-2 hidden-sm-down">
+                                    <img src="assets/img/user_male2-512.png" class="img-thumbnail">
+                                </div>
+                                <div class="col-md-10 col-sm-12">
+                                    <h5>Lena Dunham</h5>
+                                    <div class="time"> @ 6 hours ago</div>
+                                    <p>Walt Disney Studios As the design lead for Disney Studios my primary
+                                        responsibility is
+                                        the creative vision and execution of a design language that will cover over 140
+                                        enterprise
+                                        and consumer products</p>
+                                </div>
+                            </div>
+                        </div-->
+
+                    </div>
+
+                    <div class="addcomment">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="card-title">
+                                    Add Comment
+                                </div>
+                                <div class="card-body">
+                                    <form>
+
+                                        <div class="form-group">
+                                            <!--<label for="exampleFormControlTextarea1">Example textarea</label>-->
+                                            <textarea class="form-control" id="exampleFormControlTextarea1"
+                                                      rows="3"></textarea>
+                                        </div>
+                                        <div class="text-left">
+                                            <button type="submit" class="btn btn-primary mb-2">Coomment</button>
+                                        </div>
+                                    </form>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+</div>
+{% endblock %}
+{% block scripts %}
+    <script>
+    steem.api.getContentReplies("{{ post.author.username }}", "{{ post.slug }}", function(err, result) {
+  console.log(err, result);
+  var html = '';
+  $.each(result, function(key, value){
+
+
+                        html+=    "<div class='comment'><div class='row'><div class='col-md-2 hidden-sm-down> <i class='fa fa-user'></i> </div> <div class='col-md-10'>"
+                        html+=           "<h5>"+value.author+"</h5>";
+
+                        html+=            "<p>"+value.body+"</p> </div></div></div>";
+
+
+
+
+  });
+  console.log(html);
+  $('.comment_container').html(html);
+});
+
+    </script>
+
+{% endblock %}

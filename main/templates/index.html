@@ -46,7 +46,7 @@
 
                   $('#post_list').html(data.data);
                   alert(data.message);
-
+                  $('#commentModal').modal('hide');
               })
               .fail(function(err){
                   alert('Network Error')

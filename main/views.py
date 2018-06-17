@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView, DetailView
 from .models import Post, Sport
 from acc.models import Profile
 from .forms import PostForm
@@ -12,6 +12,7 @@ from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import  User
 import json
@@ -19,8 +20,9 @@ import datetime
 import requests
 from steemconnect.client import Client
 from steemconnect.operations import Comment, Vote
-from steem.steemd import Steemd
+#from steem.steemd import Steemd
 # Create your views here.
+from django.template.defaultfilters import slugify
 
 class ViewMixin:
     page=None
@@ -96,20 +98,22 @@ class CreatePost(CreateView):
         tags=self.request.POST.get('tags')
         tags_list=tags.split(',')
         post.status='submitted'
-
-
-
-
         if not self.request.user.username == 'admin':# remember to remove in production
             user=self.request.user
         else:
             user=User.objects.get(username='areoye')
 
         profile=Profile.objects.get(user=user)
+        status=post.save()
+        if status == 'Exist':
+            messages.warning(self.request, 'Value Error, Use a different title ')
+            #pdb.set_trace()
+            return HttpResponseRedirect('/')
+        form.save_m2m()
+
         cli=get_c(profile)
 
-        post.save()
-        form.save_m2m()
+
         comment=Comment(
             author=user.username,
             permlink=post.slug,
@@ -123,6 +127,7 @@ class CreatePost(CreateView):
 
 
             messages.success(self.request, 'Post Submitted and under review')
+            #pdb.set_trace()
         except:
             messages.warning(self.request, 'Network Error')
 
@@ -131,9 +136,10 @@ class CreatePost(CreateView):
 
         #return JsonResponse({'status': 200, 'slug': post.slug, 'posting_key': posting_key, 'username': user.username})
         return HttpResponseRedirect('/')
-
+'''
     def form_invalid(self,form):
         pdb.set_trace()
+'''
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -148,21 +154,27 @@ class PostStatus(View):
             post.approved_date= timezone.now()
             post.save()
             posts=Post.objects.filter(status='submitted')[:settings.PAGE_LENGTH]
-            response=render_to_string('includes/post_list.html', {'posts':posts})
+            response=render_to_string('includes/post_list.html', {'posts':posts, 'page':'review'})
             now=datetime.datetime.now()
-            new_slug=now.strftime("%Y-%m-%d-%H:%M")
+            new_slug=now.strftime("%Y-%m-%d-%H%M")
+            slug=slugify(comment)+new_slug
+            if not self.request.user.username == 'admin':  # remember to remove in production
+                user = self.request.user
+            else:
+                user = User.objects.get(username='areoye')
+
             comment = Comment(
-                author=request.user.username,
+                author=user.username,
                 body=comment,
-                permlink='cfgtyhjnrichlo',
+                permlink=slug,
                 title='',
                 parent_permlink=post.slug,
-                parent_author=post.author.username,#request.post.author,
+                parent_author=post.author.username,
                 json_metadata={"app": "sportherald.app" }
             )
-            profile = Profile.objects.get(user=request.user)
-            c=get_c(profile)
-            rich=c.broadcast([comment.to_operation_structure()])
+            profile = Profile.objects.get(user=user)
+            com=get_c(profile)
+            rich=com.broadcast([comment.to_operation_structure()])
             #pdb.set_trace()
 
             return  JsonResponse({'status':200, 'message':'Successfully Updated',
@@ -171,24 +183,27 @@ class PostStatus(View):
         except Post.DoesNotExist:
             return JsonResponse({'status':404, 'message':'Post not found'})
 
+@login_required
 def upvote(request, id):
     try:
         post=Post.objects.get(id=id)
     except:
         pass
     vote=Vote(
-        voter=request.user.username,
-        author=post.author.username,
+        voter='ckole',#request.user.username,
+        author='areoye',#post.author.username,
         permlink=post.slug,
         percent=100,
 
     )
-    profile=get_profile(request.user)
+    user=User.objects.get(username='ckole')
+    profile=get_profile(user)
     c=get_c(profile)
     res=c.broadcast(vote.to_operation_structure())
-    s=Steemd()
-    content=s.get_content(author=post.author.username, permlink=post.slug)
-    post.update(content)
+    #s=Steemd()
+    #content=s.get_content(author=post.author.username, permlink=post.slug)
+    #post.update(content)
+    pdb.set_trace()
     return HttpResponseRedirect('/')
 
 def get_c(profile):
@@ -204,3 +219,12 @@ def get_c(profile):
 
 def get_profile(user):
     return Profile.objects.get(user__username=user)
+
+class PostDetail(ViewMixin, DetailView):
+    model=Post
+    context_object_name = 'post'
+    template_name = 'details.html'
+    page='detail'
+
+
+

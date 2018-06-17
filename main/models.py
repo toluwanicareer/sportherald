@@ -2,7 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from taggit.managers import TaggableManager
 from django.template.defaultfilters import slugify
-from steem.steemd import Steemd
+from django.urls import reverse
+import pdb
+#from steem.steemd import Steemd
 import datetime
 
 # Create your models here.
@@ -12,6 +14,7 @@ class Sport(models.Model):
     name=models.CharField(max_length=200)
     slug = models.SlugField(null=True, blank=True, max_length=200)
     thumbnail=models.ImageField()
+
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -49,14 +52,22 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('main:post_detail', kwargs={'slug': self.slug})
 
 
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = slugify(self.title)
+            self.slug = slugify(self.title)+'author-'+self.author.username
+            post=Post.objects.filter(slug=self.slug)
+            #pdb.set_trace()
+            if post.count() > 1:
+                return 'Exist'
+
         return super(Post, self).save(*args, **kwargs)
 
+'''
 def update_post():
     s=Steemd()
     now=datetime.datetime.now()
@@ -69,3 +80,4 @@ def update_post():
                 steem_post.update(post)
             except:
                 pass
+'''

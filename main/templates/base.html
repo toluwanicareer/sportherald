@@ -1,4 +1,42 @@
 {% load static %}
+<style>
+    .card {
+        opacity: .9;
+    }
+    .soccer{
+        background-color: #00cc00 !important;
+    }
+    .rugby{
+        background-color: #2aabd2 !important;
+    }
+
+    .cricket{
+        background-color: #027de7 !important;
+    }
+    .golf{
+         background-color: #31708f !important;
+    }
+    .baseball{
+        background-color: #bcdff1 !important;
+    }
+    .table-tennis{
+        background-color: #957bbe !important;
+    }
+    .american-football{
+        background-color: #866ab3 !important;
+    }
+    .ice-hockey{
+        background-color: #adadad !important;
+    }
+    .bball{
+        background-color: #9999ff !important;
+    }
+    .ltennis{
+        background-color: #ccffcc !important;
+    }
+
+
+</style>
 {% include 'includes/nav.html' %}
         <nav class="navbar navbar-light bg-faded rounded " id="reviewNav">
             <a class="navbar-brand ml-sm-2 ml-md-3 ml-lg-4 hidden-md-down" href="#"><h5>Reviewed Predictions</h5></a>
@@ -10,8 +48,8 @@
                     </li>
                     {% for sport in sports  %}
 
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary sport_nav" data_id="{{ sport.id }}" href="#">{{sport.name}}</a>
+                    <li class="nav-item ">
+                        <a class="nav-link btn btn-outline-primary sport_nav {{ sport.slug }}" data_id="{{ sport.id }}" href="#">{{sport.name}}</a>
                     </li>
 
                     {% endfor  %}
@@ -79,7 +117,7 @@
                             <ul>
 
                                 {% for sport in sports %}
-                                <li><a href="#" class="sport_cat " style="text-transform: capitalize" sport_name="{{ sport.name }}"  sport_id="{{ sport.id }}" >{{ sport.name }}</a></li>
+                                <li class=""><a href="#" class="sport_cat " style="text-transform: capitalize" sport_name="{{ sport.name }}"  sport_id="{{ sport.id }}" >{{ sport.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -191,6 +229,7 @@
 <script src="{% static 'main/assets/js/vendor/holder.min.js' %}"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="{% static 'main/assets/js/ie10-viewport-bug-workaround.js' %}"></script>
+<script src="{% static 'main/assets/js/steem.min.js' %}"></script>
 <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
 <script>
     $('.sport_cat').click(function(e){

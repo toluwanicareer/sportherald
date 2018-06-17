@@ -21,8 +21,8 @@
                 <div class="col-sm-12 col-md-3 col-lg-2"><img src={{ post.sport.thumbnail.url }}
                                                               class="img-fluid"></div>
                 <div class="col-sm-12 col-md-9 col-lg-10">
-                    <h5>{{ post.title }}</h5>
-                    <p>{{ post.body }}</p>
+                    <a href="{{ post.get_absolute_url }}"><h5>{{ post.title }}</h5></a>
+                    <p>{{ post.body|truncatechars:100|safe|capfirst }}</p>
                 </div>
             </div>
 
