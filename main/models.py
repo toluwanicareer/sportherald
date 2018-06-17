@@ -40,7 +40,7 @@ class Post(models.Model):
     likes=models.IntegerField(null=True)
     comment=models.IntegerField(null=True)
     shares=models.IntegerField(null=True)
-    pending_payout=models.DecimalField(max_digits=100, decimal_places=2, null=True)
+    pending_payout=models.CharField(max_length=200, null=True)
 
     def update(self,post):
         self.likes=post.pop('net_votes')
