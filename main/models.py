@@ -80,7 +80,8 @@ def update_post():
                 steem_post = Post.objects.get(slug=post.pop('root_permlink'))
                 steem_post.update(post)
 
-            except:
-                print('error here')
+            except Post.DoesNotExist:
+                print('does not exist')
                 pass
+
 
