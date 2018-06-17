@@ -81,4 +81,6 @@ def update_post():
                 steem_post.update(post)
 
             except:
+                print('error here')
                 pass
+
