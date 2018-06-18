@@ -125,7 +125,7 @@
 
     $('.js-commnet').click(function (e) {
         e.preventDefault();
-        comment=$('.commentText').val()
+        comment=$('#commentText').val()
         id={{ post.id }}
         $.get("{% url 'main:comment' %}", {'id':id, 'comment':comment})
             .done(function(data){
