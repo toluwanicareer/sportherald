@@ -236,7 +236,7 @@ class Comment(View):
         new_slug = now.strftime("%Y-%m-%d-%H%M")
         slug = slugify(comment) + new_slug
         user=self.request.user
-        post = Post.objects.get(id=id)
+        post = Post.objects.get(id=post_id)
         comment = Comment(
             author=user.username,
             body=comment,
