@@ -13,5 +13,5 @@ urlpatterns = [
     path('rules', views.TemplateView.as_view(template_name='rules.html'), name='rules'),
     path('upvote/<int:id>', views.upvote, name='upvote'),
     path('prediction/<str:slug>', views.PostDetail.as_view(), name='post_detail'),
-    path('comment', views.Comment.as_view(), name='comment'),
+    path('comment', views.CommentView.as_view(), name='comment'),
 ]

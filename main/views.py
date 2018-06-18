@@ -227,19 +227,19 @@ class PostDetail(ViewMixin, DetailView):
     page='detail'
 
 
-class Comment(View):
+class CommentView(View):
 
     def get(self, *args, **kwargs ):
-        comment=self.request.GET.get('comment')
+        comm=self.request.GET.get('comment')
         post_id=self.request.GET.get('id')
         now = datetime.datetime.now()
         new_slug = now.strftime("%Y-%m-%d-%H%M")
-        slug = slugify(comment) + new_slug
+        slug = slugify(comm) + new_slug
         user=self.request.user
         post = Post.objects.get(id=post_id)
         comment = Comment(
             author=user.username,
-            body=comment,
+            body=comm,
             permlink=slug,
             title='',
             parent_permlink=post.slug,
@@ -248,7 +248,7 @@ class Comment(View):
         )
         profile = Profile.objects.get(user=user)
         com = get_c(profile)
-        rich = com.broadcast([comment.to_operation_structure()])
+        rich = com.broadcast([comm.to_operation_structure()])
         return JsonResponse({'status': 200, 'message': 'Successfully Updated',
                              })
 
