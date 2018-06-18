@@ -81,11 +81,11 @@
 
                                         <div class="form-group">
                                             <!--<label for="exampleFormControlTextarea1">Example textarea</label>-->
-                                            <textarea class="form-control" id="exampleFormControlTextarea1"
+                                            <textarea class="form-control" id="commentText"
                                                       rows="3"></textarea>
                                         </div>
                                         <div class="text-left">
-                                            <button type="submit" class="btn btn-primary mb-2">Coomment</button>
+                                            <button type="submit" class="btn btn-primary mb-2 js-commnet">Comment</button>
                                         </div>
                                     </form>
 
@@ -122,6 +122,16 @@
   $('.comment_container').html(html);
 });
 
+
+    $('.js-commnet').click(function (e) {
+        e.preventDefault();
+        comment=$('.commentText').val()
+        id={{ post.id }}
+        $.get("{% url 'main:comment' %}", {'id':id, 'comment':comment})
+            .done(function(data){
+                alert(data.message)
+        })
+    })
     </script>
 
 {% endblock %}
