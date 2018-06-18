@@ -230,8 +230,8 @@ class PostDetail(ViewMixin, DetailView):
 class Comment(View):
 
     def get(self, *args, **kwargs ):
-        comment=requests.GET.get('comment')
-        post_id=requests.GET.get('id')
+        comment=self.request.GET.get('comment')
+        post_id=self.request.GET.get('id')
         now = datetime.datetime.now()
         new_slug = now.strftime("%Y-%m-%d-%H%M")
         slug = slugify(comment) + new_slug
