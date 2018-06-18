@@ -248,7 +248,7 @@ class CommentView(View):
         )
         profile = Profile.objects.get(user=user)
         com = get_c(profile)
-        rich = com.broadcast([comm.to_operation_structure()])
+        rich = com.broadcast([comment.to_operation_structure()])
         return JsonResponse({'status': 200, 'message': 'Successfully Updated',
                              })
 
