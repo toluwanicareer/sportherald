@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d404c1da-c2bb-4802-92c8-a3fd3641f124" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/models.py" afterPath="$PROJECT_DIR$/main/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main/templates/details.html" afterPath="$PROJECT_DIR$/main/templates/details.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,13 +38,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="details.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="details.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main/templates/details.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="31" column="31" lean-forward="false" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+            <state relative-caret-position="186">
+              <caret line="102" column="60" lean-forward="false" selection-start-line="102" selection-start-column="60" selection-end-line="102" selection-end-column="60" />
               <folding>
-                <marker date="1529404629991" expanded="false" signature="1198:1248" ph="..." />
+                <marker date="1529404984916" expanded="false" signature="1198:1248" ph="..." />
               </folding>
             </state>
           </provider>
@@ -101,12 +100,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="255">
+              <caret line="15" column="33" lean-forward="true" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -182,8 +183,8 @@
         <option value="$PROJECT_DIR$/main/templates/includes/post_list.html" />
         <option value="$PROJECT_DIR$/main/templates/index.html" />
         <option value="$PROJECT_DIR$/main/templates/base.html" />
-        <option value="$PROJECT_DIR$/main/templates/details.html" />
         <option value="$PROJECT_DIR$/main/models.py" />
+        <option value="$PROJECT_DIR$/main/templates/details.html" />
       </list>
     </option>
   </component>
@@ -973,21 +974,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/templates/details.html">
+    <entry file="file://$PROJECT_DIR$/main/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="31" column="31" lean-forward="false" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+        <state relative-caret-position="255">
+          <caret line="15" column="33" lean-forward="true" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
           <folding>
-            <marker date="1529404629991" expanded="false" signature="1198:1248" ph="..." />
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/models.py">
+    <entry file="file://$PROJECT_DIR$/main/templates/details.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="186">
+          <caret line="102" column="60" lean-forward="false" selection-start-line="102" selection-start-column="60" selection-end-line="102" selection-end-column="60" />
+          <folding>
+            <marker date="1529404984916" expanded="false" signature="1198:1248" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
