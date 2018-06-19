@@ -22,7 +22,7 @@
           });
       });
 
-      $('.post_action').click(function(e){
+      $('#post_list').on('click', '.post_action', function(e){
           e.preventDefault();
           $('#commentModal').modal('show');
 
