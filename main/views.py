@@ -203,7 +203,7 @@ def upvote(request, id):
 
     #c=get_c(profile)
     res=c.broadcast(vote.to_operation_structure())
-    pdb.set_trace()
+    #pdb.set_trace()
     return HttpResponseRedirect('/')
 '''
 def get_c(profile):
