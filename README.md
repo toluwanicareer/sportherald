@@ -6,21 +6,21 @@ This project uses the steemblockchain  to reward predictors with accurate predic
 
 Get in touch on our discord server [here](https://discord.gg/rfcBwY) For Pull requests and Feature request
 
-Installing on Localhost
+# Installing on Localhost
 
-Min Requirement
+# Min Requirement
  Python 3.**
  django 2.**
 
- Note:
- These instruction has been tested to work on ubuntu operating system, you can try your luck on windows.
+Note:
+These instruction has been tested to work on ubuntu operating system, you can try your luck on windows.
 
 Install python
 
 Install virtualenv with pip (optional)
 
 
- Create Virtual Environment (optional)
+Create Virtual Environment (optional)
 
 clone the Repository
  'git clone '
@@ -28,7 +28,7 @@ clone the Repository
  Once the cloning is completed
  Next step requires you to be in the virtual environment you created if you are using one
 
- run 'pip install -r requirements.txt' to install all the dependencies that the package needs
+ run 'pip install -r requirements.txt' to install all the dependencies that the package needs including django
 
  move to the parent directory and run
  'python manage.py runserver'
@@ -44,7 +44,7 @@ i always use crontab editor on ubuntu, and i access it with this command
 'crontab -e'
 
 
- App Structure
+# App Structure
 The site is built with python using the django framework, django works by breaking your project into modules which is what i have done
 
 account module : this handles authentication and authorization
