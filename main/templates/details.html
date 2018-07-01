@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    <style>
+    #detailpage .comment p {
+    font-size: 18px;
+}
+    .reply_container .reply{
+        display: none;
+    }
+    </style>
     <div id="detailpage" style="background-color: white;
     margin-bottom: 30px;
     border-right: solid thin #974679;padding: 17px;">
@@ -10,7 +18,7 @@
                     <div class="detailHeader">
                         <h2>{{ post.title }}</h2>
 
-                        <i class="fa fa-user"></i>
+                        <!--i class="fa fa-user"></i-->
                         <span class="user">
                  {{ post.author.username }}
                 </span>
@@ -26,13 +34,13 @@
                     </div>
 
                     <div class="commentSection">
-                        <!--div class="commentno">{{ post.comment }} Comments
+                        <div class="commentno">{{ post.comment|default:0  }} Comments
                             <hr style="margin-top: 0.5rem;
     background-color: #974679;"/>
-                        </div-->
-                        <!--div class="comment_container">
+                        </div>
+                        <div class="comment_container">
 
-                        </div-->
+                        </div>
 
                         <!--div class="comment sub">
                             <div class="row">
@@ -49,9 +57,9 @@
                                         and consumer products</p>
                                 </div>
                             </div>
-                        </div>
+                        </div-->
 
-                        <div class="comment">
+                        <!--div class="comment">
                             <div class="row">
                                 <div class="col-md-2 hidden-sm-down">
                                     <img src="assets/img/user_male2-512.png" class="img-thumbnail">
@@ -71,7 +79,7 @@
                     </div>
 
                     <div class="addcomment">
-                        <!--div-- class="card">
+                        <div class="card">
                             <div class="card-block">
                                 <div class="card-title">
                                     Add Comment
@@ -81,10 +89,10 @@
 
                                         <div class="form-group">
 
-                                            <textarea class="form-control" id="commentText"
+                                            <textarea class="form-control commentText"
                                                       rows="3"></textarea>
                                         </div>
-                                        <div class="text-left">
+                                        <div class="text-left imtired">
                                             <button type="submit" class="btn btn-primary mb-2 js-commnet">Comment</button>
                                         </div>
                                     </form>
@@ -95,22 +103,44 @@
 
                             </div>
 
-                        </div-->
+                        </div>
                     </div>
                 </div>
-    <section class="finally-comments"
 
-    data-id="https://steemit.com/sportherald/@{{ post.author.username }}/{{ post.slug }}"
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-" role="document">
+        <div class="modal-content">
 
-    data-reputation="true"
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reply to Comment </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-    data-values="true"
+            <div class="modal-body">
+                <div class="reply_container">
 
-    data-profile="true"
+                        </div>
+                <form class="important_shit" method="post">
+                    <input type="hidden" id="reply_author" >
+                    <input type="hidden" id="reply_slug" >
+                    {% csrf_token %}
+                {% include 'includes/commentform.html' %}
+                </form>
 
-    data-generated="false"
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-</section>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <script src="https://finallycomments.com/js/finally.min.js"></script>
 
@@ -118,34 +148,76 @@
 {% endblock %}
 {% block scripts %}
     <script>
-    steem.api.getContentReplies("{{ post.author.username }}", "{{ post.slug }}", function(err, result) {
+    function getComments(username, slug, container){
+          steem.api.getContentReplies(username, slug, function(err, result) {
   console.log(err, result);
   var html = '';
   $.each(result, function(key, value){
 
 
-                        html+=    "<div class='comment'><div class='row'><div class='col-md-2 hidden-sm-down> <i class='fa fa-user'></i> </div> <div class='col-md-10'>"
+                        html+=    "<div class='comment'><div class='row'><div class='col-md-2 hidden-sm-down'> <img src= '/static/main/assets/img/user_male2-512.png'  class='img-thumbnail img-responsive'> </div> <div class='col-md-10'> "
                         html+=           "<h5>"+value.author+"</h5>";
 
-                        html+=            "<p>"+value.body+"</p> </div></div></div>";
+
+                        html+=            "<p>"+value.body+"</p><div class='icon reply'><i class='fa fa-angle-up'></i>"+ value.pending_payout_value+" <i class='fa fa-comments'></i> "+value.children+ " <a href='#' author="+value.author+" slug="+value.permlink+"  class='js_reply'>Reply</a></div></div></div></div><hr>";
 
 
 
 
   });
-  console.log(html);
-  $('.comment_container').html(html);
+  //console.log(html);
+  $(container).html(html);
 });
+    }//get comment function
+getComments("{{ post.author.username }}","{{ post.slug }}", '.comment_container');
 
 
-    $('.js-commnet').click(function (e) {
+    $('.comment_container').on('click', '.js_reply', function (e) {
         e.preventDefault();
-        comment=$('#commentText').val()
-        id={{ post.id }}
-        $.get("{% url 'main:comment' %}", {'id':id, 'comment':comment})
-            .done(function(data){
-                alert(data.message)
+        username=$(this).attr('author');
+        slug=$(this).attr('slug');
+
+        getComments(username,slug,'.reply_container');
+        $("#reply_author").val(username);
+        $("#reply_slug").val(slug);
+
+        $('#replyModal').modal('show');
+    });
+
+
+    function comment(comment_class, username, slug){
+        comment=$(comment_class).val()
+
+        $.get("{% url 'main:comment' %}", {
+            'comment':comment,
+            'post_slug':slug,
+            'post_username':username,
         })
+            .done(function(data){
+                 $('.js-commnet').prop('disabled', false);
+                 getComments("{{ post.author.username }}","{{ post.slug }}", '.comment_container');
+                alert(data.message)
+
+                //console.log('testing')
+
+        })
+    }
+    $('.important_shit .js-commnet').click(function (e) {
+        e.preventDefault();
+        //console.log('checking if it is running this');
+        $(this).prop("disabled", true);
+        comment_class='.replyComment';//'.commentText';
+        author=$('#reply_author').val();
+        slug=$('#reply_slug').val();
+        comment(comment_class, author, slug)
+    })
+
+    $('.imtired .js-commnet').click(function (e) {
+
+        e.preventDefault();
+        $(this).prop("disabled", true);
+        comment_class='.commentText';
+        comment(comment_class, "{{ post.author.username }}", "{{ post.slug }}")
     })
     </script>
 

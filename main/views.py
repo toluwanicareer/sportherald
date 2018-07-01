@@ -189,31 +189,37 @@ def upvote(request, id):
         post=Post.objects.get(id=id)
     except:
         pass
+
     vote=Vote(
-        voter='ckole',#request.user.username,
-        author='areoye',#post.author.username,
+        voter=request.user.username,#request.user.username,
+        author=post.author.username,#post.author.username,
         permlink=post.slug,
         percent=100,
 
     )
-    user=User.objects.get(username='ckole')
+    user=User.objects.get(username=request.user.username)
     profile=get_profile(user)
-    c=get_c(profile)
+    c = get_c(profile)
+
+    #c=get_c(profile)
     res=c.broadcast(vote.to_operation_structure())
-    #s=Steemd()
-    #content=s.get_content(author=post.author.username, permlink=post.slug)
-    #post.update(content)
     pdb.set_trace()
     return HttpResponseRedirect('/')
-
+'''
 def get_c(profile):
     refresh_token = profile.refresh_token
     url = "https://v2.steemconnect.com/api/oauth2/token"
     response_access = requests.post(url, data={'refresh_token': refresh_token,
                                                'client_id': 'sportherald.app',
                                                'client_secret': settings.CLIENT_SECRET,
-                                               'scope': "vote,comment,offline, comment_options,claim_reward_balance"})
+                                               'scope': "vote,comment,custom_json,comment_options,claim_reward_balance"})
     access_token = response_access.json().get('access_token')
+    c = Client(access_token=access_token, client_id='sportherald.app', client_secret=settings.CLIENT_SECRET)
+    return c
+'''
+
+def get_c(profile):
+    access_token=profile.access_token
     c = Client(access_token=access_token, client_id='sportherald.app', client_secret=settings.CLIENT_SECRET)
     return c
 
@@ -231,24 +237,28 @@ class CommentView(View):
 
     def get(self, *args, **kwargs ):
         comm=self.request.GET.get('comment')
-        post_id=self.request.GET.get('id')
+       # post_id=self.request.GET.get('id')
+        post_slug=self.request.GET.get('post_slug')
+        post_username=self.request.GET.get('post_username')
         now = datetime.datetime.now()
         new_slug = now.strftime("%Y-%m-%d-%H%M")
         slug = slugify(comm) + new_slug
         user=self.request.user
-        post = Post.objects.get(id=post_id)
+        #post = Post.objects.get(id=post_id)
         comment = Comment(
             author=user.username,
             body=comm,
             permlink=slug,
             title='',
-            parent_permlink=post.slug,
-            parent_author=post.author.username,
+            parent_permlink=post_slug,
+            parent_author=post_username,
             json_metadata={"app": "sportherald.app"}
         )
+        #pdb.set_trace()
         profile = Profile.objects.get(user=user)
         com = get_c(profile)
         rich = com.broadcast([comment.to_operation_structure()])
+        #pdb.set_trace()
         return JsonResponse({'status': 200, 'message': 'Successfully Updated',
                              })
 

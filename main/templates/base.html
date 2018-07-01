@@ -34,7 +34,14 @@
     .ltennis{
         background-color: #ccffcc !important;
     }
+    body {
 
+    font-family: 'Lato',sans-serif !important;
+}
+
+    .user{
+        text-transform: capitalize;
+    }
 
 </style>
 {% include 'includes/nav.html' %}
@@ -83,7 +90,7 @@
                         <p class="text-center">SportHerald uses the steem blockchain to reward predictors with accurate
                             forecasting ability</p>
                         <a href="https://signup.steemit.com/?ref=sportherald" class="btn btn-block btn-lg">Sign Up <i class="fa fa-user"></i></a>
-                        <a class="btn btn-block btn-lg" href="https://steemconnect.com/oauth2/authorize?client_id=sportherald.app&response_type=code&redirect_uri=http%3A%2F%2Fsportherald.org%2Facc%2Foauth%2Fcallback%2F&scope=offline,login,comment,vote,delete_comment,comment_options,claim_reward_balance" >Login<i class="fa fa-sign-in"></i></a>
+                        <a class="btn btn-block btn-lg" href="https://steemconnect.com/oauth2/authorize?client_id=sportherald.app&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Facc%2Foauth%2Fcallback%2F&scope=" >Login<i class="fa fa-sign-in"></i></a>
                     </div>
                 </div>
 
@@ -154,8 +161,10 @@
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="col-form-label">Make your prediction:</label>
-                        <textarea class="form-control" rows="10" name="body" id="id_body" required></textarea>
+                        <textarea class="form-control tiny" rows="10" name="body" id="id_body" ></textarea>
+
                     </div>
+
                     <div class="form-group">
                         <label for="recipient-tag" class="col-form-label">Tags</label>
                         <input type="text" name="tags" id="id_tags" class="form-control" id="recipient-tag" required>
@@ -189,15 +198,7 @@
             <div class="modal-body">
                 <form method="post"  id="comment-upload" action="{% url 'main:post_status' %}">
                     {% csrf_token %}
-                    <input type="hidden" name="post_id" id="post_id" value="">
-                    <input type="hidden" name="comment_action" id="comment_action_id" value="">
-
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Comment here:</label>
-                        <textarea class="form-control" rows="10" name="body" id="id_comment" required></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                {% include 'includes/commentform.html' %}
                 </form>
 
             </div>
@@ -231,6 +232,8 @@
 <script src="{% static 'main/assets/js/ie10-viewport-bug-workaround.js' %}"></script>
 <script src="{% static 'main/assets/js/steem.min.js' %}"></script>
 <script src="https://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+<script src='https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=x04lrjv0qgowh7z38l1q7sqkvvgft65c39410l4gd3hvfcsy'></script>
+ <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 <script>
     $('.sport_cat').click(function(e){
         e.preventDefault();
@@ -252,6 +255,15 @@
 
 
 </script>
+<script>
+  tinymce.init({
+    selector: '.tiny'
+  });
+  </script>
+
+
+
+
 {% block scripts %}
 {% endblock %}
 </body>

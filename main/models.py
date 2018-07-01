@@ -59,7 +59,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = slugify(self.title)+'author-'+self.author.username
+            self.slug = slugify(self.title)+'-author-'+self.author.username
             post=Post.objects.filter(slug=self.slug)
             #pdb.set_trace()
             if post.count() > 1:

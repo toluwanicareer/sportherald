@@ -35,10 +35,11 @@
 
         <div class="icon">
             <i class="fa fa-angle-up"></i>
-            ${{ post.pending_payouts }}
+            ${{ post.pending_payouts|default:0 }}
         </div>
         <div class="icon">
-            <i class="fa fa-thumbs-up"></i>
+             <a class="js_upvote"  href="{% url 'main:upvote' post.id  %}"><i class="fa fa-thumbs-up"></i></a>
+
             {{ post.likes|default:0 }}
         </div>
         <div class="icon">
