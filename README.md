@@ -8,7 +8,7 @@ Get in touch on our discord server [here](https://discord.gg/rfcBwY) For Pull re
 
 # Installing on Localhost
 
-# Min Requirement
+ Min Requirement
  Python 3.**
  django 2.**
 
@@ -23,7 +23,7 @@ Install virtualenv with pip (optional)
 Create Virtual Environment (optional)
 
 clone the Repository
- 'git clone '
+ 'git clone https://github.com/toluwanicareer/sportherald.git'
 
  Once the cloning is completed
  Next step requires you to be in the virtual environment you created if you are using one
