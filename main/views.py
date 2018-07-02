@@ -15,6 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib.auth.models import  User
+#from .models import update_post
 import json
 import datetime
 import requests
@@ -202,7 +203,7 @@ def upvote(request, id):
     c = get_c(profile)
 
     #c=get_c(profile)
-    res=c.broadcast(vote.to_operation_structure())
+    res=c.broadcast([vote.to_operation_structure()])
     #pdb.set_trace()
     return HttpResponseRedirect('/')
 '''
