@@ -41,6 +41,9 @@ class Post(models.Model):
     comment=models.IntegerField(null=True)
     shares=models.IntegerField(null=True)
     pending_payouts=models.CharField(max_length=200, null=True)
+    thumbnail=models.ImageField(null=True)
+
+
 
     def update(self,post):
         self.likes=post.pop('net_votes')
@@ -66,6 +69,12 @@ class Post(models.Model):
                 return 'Exist'
 
         return super(Post, self).save(*args, **kwargs)
+
+
+class PostImage(models.Model):
+    image=models.ImageField()
+
+
 
 def update_post():
     s=Steemd()

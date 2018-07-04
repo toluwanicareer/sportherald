@@ -14,4 +14,5 @@ urlpatterns = [
     path('upvote/<int:id>', views.upvote, name='upvote'),
     path('prediction/<str:slug>', views.PostDetail.as_view(), name='post_detail'),
     path('comment', views.CommentView.as_view(), name='comment'),
+    path('postAcceptor/', views.ImageUpload, name='image_upload'),
 ]

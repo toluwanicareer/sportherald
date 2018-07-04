@@ -1,6 +1,6 @@
 from django import forms
 from .models import Post
-
+from .models import PostImage
 class PostForm(forms.ModelForm):
 
     class Meta:
@@ -12,3 +12,9 @@ class PostForm(forms.ModelForm):
             'body': forms.Textarea(attrs={'class': ' form-control'}),
             'tags': forms.Select(attrs={'class':'form-control'}),
         }
+
+class ImageForm(forms.ModelForm) :
+    class Meta:
+        model = PostImage
+        fields=('image',)
+

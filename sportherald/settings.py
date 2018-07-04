@@ -136,3 +136,5 @@ PAGE_LENGTH=20
 PAGE_ADD=10
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+WHERE='http://localhost:8000'

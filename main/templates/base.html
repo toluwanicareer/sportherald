@@ -1,8 +1,9 @@
 {% load static %}
 <style>
     .card {
-        opacity: .9;
+        /*opacity: .9;*/
     }
+    /**
     .soccer{
         background-color: #00cc00 !important;
     }
@@ -34,6 +35,7 @@
     .ltennis{
         background-color: #ccffcc !important;
     }
+    **/
     body {
 
     font-family: 'Lato',sans-serif !important;
@@ -43,6 +45,9 @@
         text-transform: capitalize;
     }
 
+    .content img, .detailContent img{
+        width:100%
+    }
 </style>
 {% include 'includes/nav.html' %}
         <nav class="navbar navbar-light bg-faded rounded " id="reviewNav">
@@ -171,6 +176,11 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+                <iframe id="form_target" name="form_target" style="display:none"></iframe>
+                   <form id="my_form" action="{% url 'main:image_upload' %}" target="form_target" method="post" enctype="multipart/form-data" style="width:0px;height:0;overflow:hidden">
+                        {% csrf_token %}
+                       <input name="image" type="file" onchange="$('#my_form').submit();this.value='';">
+                   </form>
 
             </div>
             <div class="modal-footer">
@@ -257,7 +267,12 @@
 </script>
 <script>
   tinymce.init({
-    selector: '.tiny'
+    selector: '.tiny',
+    plugins: ["image"],
+        file_browser_callback: function(field_name, url, type, win) {
+            if(type=='image') $('#my_form input').click();
+        }
+
   });
   </script>
 

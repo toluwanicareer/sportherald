@@ -4,7 +4,7 @@ from django.views.generic import TemplateView, CreateView, ListView, UpdateView,
 from .models import Post, Sport
 from acc.models import Profile
 from .forms import PostForm
-from django.http import JsonResponse, HttpResponseRedirect, Http404
+from django.http import JsonResponse, HttpResponseRedirect, Http404, HttpResponse
 import pdb
 from django.conf import settings
 from django.contrib import messages
@@ -24,6 +24,7 @@ from steemconnect.operations import Comment, Vote
 #from steem.steemd import Steemd
 # Create your views here.
 from django.template.defaultfilters import slugify
+from .forms import ImageForm
 
 class ViewMixin:
     page=None
@@ -263,5 +264,17 @@ class CommentView(View):
         return JsonResponse({'status': 200, 'message': 'Successfully Updated',
                              })
 
+
+
+def ImageUpload(request):
+    form = ImageForm(request.POST, request.FILES)
+    if form.is_valid():
+
+        image = form.save()
+        #pdb.set_trace()
+
+        return HttpResponse(
+            "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('%s%s').closest('.mce-window').find('.mce-primary').click();</script>" % (settings.WHERE, image.image.url))
+    #return HttpResponse("<script>alert('%s');</script>" % escapejs('\n'.join([v[0] for k, v in form.errors.items()])))
 
 
