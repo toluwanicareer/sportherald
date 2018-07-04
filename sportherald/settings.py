@@ -137,4 +137,4 @@ PAGE_ADD=10
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-WHERE='http://localhost:8000'
+WHERE='https://sportherald.org'#'http://localhost:8000'
