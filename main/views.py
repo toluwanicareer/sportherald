@@ -274,7 +274,7 @@ def ImageUpload(request):
         #pdb.set_trace()
 
         return HttpResponse(
-            "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('%s%s').closest('.mce-window').find('.mce-primary').click();</script>" % (settings.WHERE, image.image.url))
+            "<script>top.$('.mce-btn.mce-open').parent().find('.mce-textbox').val('%s').closest('.mce-window').find('.mce-primary').click();</script>" % image.image.url)
     #return HttpResponse("<script>alert('%s');</script>" % escapejs('\n'.join([v[0] for k, v in form.errors.items()])))
     #fhh
 
