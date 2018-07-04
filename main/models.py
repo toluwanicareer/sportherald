@@ -4,7 +4,7 @@ from taggit.managers import TaggableManager
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 import pdb
-from steem.steemd import Steemd
+#from steem.steemd import Steemd
 import datetime
 
 # Create your models here.
@@ -75,7 +75,7 @@ class PostImage(models.Model):
     image=models.ImageField()
 
 
-
+'''
 def update_post():
     s=Steemd()
     now=datetime.datetime.now()
@@ -92,4 +92,4 @@ def update_post():
 
                 pass
 
-
+'''
