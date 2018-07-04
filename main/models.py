@@ -41,7 +41,7 @@ class Post(models.Model):
     comment=models.IntegerField(null=True)
     shares=models.IntegerField(null=True)
     pending_payouts=models.CharField(max_length=200, null=True)
-    thumbnail=models.ImageField(null=True)
+    #thumbnail=models.ImageField(null=True)
 
 
 
