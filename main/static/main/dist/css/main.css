@@ -60,6 +60,8 @@ header {
 
 .navbar.mainnav {
     background: linear-gradient(to right,#ff5f5f, #1f1e1f);
+    padding-top:0px;
+    padding-bottom: 0px;
 }
 
 .navbar.mainnav .nav-item.active {
