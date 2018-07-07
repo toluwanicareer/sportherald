@@ -59,7 +59,7 @@ header {
 }
 
 .navbar.mainnav {
-    background-color: white;
+    background: linear-gradient(to right,#ff5f5f, #1f1e1f);
 }
 
 .navbar.mainnav .nav-item.active {
@@ -75,7 +75,7 @@ header {
 }
 
 .navbar.mainnav .nav-item .nav-link {
-    color: black;
+    color: white;
 }
 
 #reviewNav {
