@@ -38,9 +38,15 @@
             ${{ post.pending_payouts|default:0 }}
         </div>
         <div class="icon">
+            {% if user.is_authenticated %}
              <a class="js_upvote"  href="{% url 'main:upvote' post.id  %}"><i class="fa fa-thumbs-up"></i></a>
-
             {{ post.likes|default:0 }}
+                {% else %}
+                <i class="fa fa-thumbs-up"></i></a>
+            {{ post.likes|default:0 }}
+            {% endif %}
+
+
         </div>
         <div class="icon">
             <i class="fa fa-comments"></i>

@@ -138,3 +138,5 @@ PAGE_ADD=10
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 WHERE='https://sportherald.org'#'http://localhost:8000'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

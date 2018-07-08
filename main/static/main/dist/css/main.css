@@ -5,15 +5,16 @@ body {
 
 .main {
     padding-top: 120px;
-    background-image: url("../../assets/img/soccer-sports-backgrounds-wallpapers.jpg");
+    /**background-image: url("../../assets/img/soccer-sports-backgrounds-wallpapers.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
+    **/
 
 }
 
 a {
-    color: #974679;
+    color: rgb(255, 95, 95) ;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -197,7 +198,7 @@ header {
 }
 
 #predictions .card .card-block h5 {
-    color: #974679;
+    color: rgb(255, 95, 95)/**#974679; */
 }
 
 #predictions .card .card-footer .icon .fa {

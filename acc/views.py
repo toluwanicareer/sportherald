@@ -67,7 +67,7 @@ def user_logout(request):
 
 
 
-'''
+
 def search_cap_us(query='brush'):
     products = []
     header = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0', }
@@ -114,9 +114,12 @@ def colparmer(query='brush'):
     params = urllib.parse.urlencode({"searchterm": query})
     response = requests.get(search_url, params)
     soup = BeautifulSoup(response.content, "html.parser")
-    pdb.set_trace()
+
     products_div=soup.find_all("div", class_='eb-productListing')
-    product_ul=products_div[0].find_all("ul", recursive=False)
+    try:
+        product_ul=products_div[0].find_all("ul", recursive=False)
+    except:
+        return scraped_products
     product_lists=product_ul[0].find_all("li", recursive=False)
     for product in product_lists:
         p = Product()
@@ -200,7 +203,65 @@ def blowoutmedical(query='brush'):
         scraped_products.append(p)
     return scraped_products
 
-'''
+
+
+def iqdentalsupply(query='brush'):
+    search_url='http://www.iqdentalsupply.com/Shop'
+    base_url='http://www.iqdentalsupply.com'
+    scraped_products=[]
+    parmas=urllib.parse.urlencode({'search':query})
+    response=requests.get(search_url, parmas)
+    soup=BeautifulSoup(response.content, 'html.parser')
+    product_lists=soup.find_all('div', class_='cell')
+    for product in product_lists:
+        p=Product()
+        atag=product.find_all('a', class_='thumbnail')
+        p.manufacturer_url=base_url+atag[0]['href']
+        p.image_url=base_url+atag[0].img['src']
+        p.title=product.h3.a.text
+        try:
+            tds=product.find_all('td', 'texttable')
+            p.price=float(tds[1].text.strip().replace('$',''))#use the first price in the list
+        except:
+            price=product.find_all('div', class_='price')
+            p.price=float(price[0].h3.text.strip().replace('$', ''))
+        scraped_products.append(p)
+    return
+
+
+
+def hygine_direct(query='brush'):
+    scraped_products=[]
+    search_url='http://www.hygiene-direct.com/search.php'
+    params=urllib.parse.urlencode({'search_query':query})
+    response=requests.get(search_url, params)
+    soup=BeautifulSoup(response.content, 'html.parser')
+    product_lists=soup.find_all('li', class_='ListView')
+    for product in product_lists:
+        #thumbnail is not on d detail search
+        p=Product()
+        atag=product.find_all('a', class_='ProductLink')
+        p.title=atag[0].text
+        p.manufacturer_url=atag[0]['href']
+        p.price=float(product.find_all('span', class_='ProductPrice')[0].text.strip().split('$').pop())
+        scraped_products.append(p)
+    return scraped_products
+
+
+
+def mendasearch(query='brush'):
+    search_url='http://menda.descoindustries.com/Search/%s' % query
+    response=requests.get(search_url)
+    soup=BeautifulSoup(response.content, 'html.parser')
+    ul=soup.find_all('ul', class_='grid')
+    product_lists=ul[0].find_all('li', recursive=False)
+
+
+
+
+
+
+
 
 
 
